@@ -26,13 +26,31 @@ _COL_NAMES = [
     "income",
 ]
 
-_COL_TARGET = "income"
-
-_COL_DROP = [
-    _COL_TARGET,
-    "education_num",
+CAT_COLS = [
+    'workclass',
+    'education',
+    'marital_status',
+    'occupation',
+    'relationship',
+    'race',
+    'sex',
+    'native_country'
 ]
 
+NUM_COLS = [
+    'age',
+    'fnlwgt',
+    'capital_gain',
+    'capital_loss',
+    'hours_per_week'
+]
+
+TARGET_COL = "income"
+
+_COL_DROP = [
+    TARGET_COL,
+    "education_num",
+]
 
 def fetch_censusdata():
     created_datasets_dir(_BASE_SUBDIR)
@@ -58,6 +76,6 @@ def fetch_censusdata():
 
     return (
         df.drop(columns=_COL_DROP),
-        df[_COL_TARGET].map(lambda item: 1.0 if item.strip() == ">50K" else 0.0),
+        df[TARGET_COL].map(lambda item: 1.0 if item.strip() == ">50K" else 0.0),
     )
 
