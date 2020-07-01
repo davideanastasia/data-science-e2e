@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+jupyter = "*"
+black = "*"
+
+[packages]
+jupyterlab = "*"
+mlflow = "*"
+click = "*"
+pandas = "*"
+sklearn = "*"
+matplotlib = "*"
+missingno = "*"
+ppscore = "*"
+numba = "==0.50.0"
+scikit-lego = "*"
+tbb = "==2019.0"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

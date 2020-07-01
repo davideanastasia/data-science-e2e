@@ -1,0 +1,7 @@
+name: CensusData
+
+entry_points:
+  trainer:
+    parameters:
+      regularization: {type: float, default: 0.1}
+    command: "python this_project/trainer.py -r {regularization}"
