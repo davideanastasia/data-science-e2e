@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 from this_project.datasets.common import (
     created_datasets_dir,
@@ -52,6 +53,11 @@ _COL_DROP = [
     "education_num",
 ]
 
+def _sanitize_str_columns(df):
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col] = df[col].str.strip().replace({'?': np.nan})
+
+
 def fetch_censusdata():
     created_datasets_dir(_BASE_SUBDIR)
 
@@ -73,6 +79,8 @@ def fetch_censusdata():
         names=_COL_NAMES,
         index_col=False,
     )
+
+    df.pipe(_sanitize_str_columns)
 
     return (
         df.drop(columns=_COL_DROP),

@@ -23,6 +23,7 @@ def make_linear_preprocessor():
         ),
         make_pipeline(
             ColumnSelector(['occupation', 'sex', 'race', 'marital_status']),
+            SimpleImputer(strategy='constant', fill_value='MISSING'),
             CrossFeatureCalculator(),
             OneHotEncoder(handle_unknown='ignore')
         )
