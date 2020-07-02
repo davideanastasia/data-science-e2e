@@ -28,34 +28,40 @@ _COL_NAMES = [
 ]
 
 CAT_COLS = [
-    'workclass',
-    'education',
-    'marital_status',
-    'occupation',
-    'relationship',
-    'race',
-    'sex',
-    'native_country'
+    "workclass",
+    "education",
+    "marital_status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native_country",
 ]
 
 NUM_COLS = [
-    'age',
-    'fnlwgt',
-    'capital_gain',
-    'capital_loss',
-    'hours_per_week'
+    "age",
+    "fnlwgt",
+    "education_num",
+    "capital_gain",
+    "capital_loss",
+    "hours_per_week",
 ]
 
 TARGET_COL = "income"
 
-_COL_DROP = [
-    TARGET_COL,
-    "education_num",
-]
 
 def _sanitize_str_columns(df):
-    for col in df.select_dtypes(include=['object']).columns:
-        df[col] = df[col].str.strip().replace({'?': np.nan})
+    for col in df.select_dtypes(include=["object"]).columns:
+        df[col] = df[col].str.strip().replace({"?": np.nan})
+
+    return df
+
+
+def _sanitise_float_columns(df):
+    for col in df.select_dtypes(include=["int64"]).columns:
+        df[col] = df[col].replace({0.0: np.nan})
+
+    return df
 
 
 def fetch_censusdata():
@@ -80,10 +86,10 @@ def fetch_censusdata():
         index_col=False,
     )
 
-    df.pipe(_sanitize_str_columns)
+    df = df.pipe(_sanitize_str_columns).pipe(_sanitise_float_columns)
 
     return (
-        df.drop(columns=_COL_DROP),
+        df.drop(columns=[TARGET_COL]),
         df[TARGET_COL].map(lambda item: 1.0 if item.strip() == ">50K" else 0.0),
     )
 

@@ -14,17 +14,16 @@ def make_linear_preprocessor():
     return make_union(
         make_pipeline(
             ColumnSelector(CAT_COLS),
-            SimpleImputer(strategy='constant', fill_value='MISSING'),
-            OneHotEncoder(handle_unknown='ignore')
+            SimpleImputer(strategy="constant", fill_value="MISSING"),
+            OneHotEncoder(handle_unknown="ignore"),
         ),
         make_pipeline(
-            ColumnSelector(NUM_COLS),
-            StandardScaler()
+            ColumnSelector(NUM_COLS), SimpleImputer(strategy="median"), StandardScaler()
         ),
         make_pipeline(
-            ColumnSelector(['occupation', 'sex', 'race', 'marital_status']),
-            SimpleImputer(strategy='constant', fill_value='MISSING'),
+            ColumnSelector(["occupation", "sex", "race", "marital_status"]),
+            SimpleImputer(strategy="constant", fill_value="MISSING"),
             CrossFeatureCalculator(),
-            OneHotEncoder(handle_unknown='ignore')
-        )
+            OneHotEncoder(handle_unknown="ignore"),
+        ),
     )

@@ -20,6 +20,7 @@ ppscore = "*"
 numba = "==0.50.0"
 scikit-lego = "*"
 tbb = "==2019.0"
+hyperopt = "*"
 
 [requires]
 python_version = "3.7"
