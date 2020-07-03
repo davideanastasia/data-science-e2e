@@ -86,10 +86,9 @@ def fetch_censusdata():
         index_col=False,
     )
 
-    df = df.pipe(_sanitize_str_columns).pipe(_sanitise_float_columns)
+    df = df.pipe(_sanitize_str_columns) # .pipe(_sanitise_float_columns)
 
     return (
         df.drop(columns=[TARGET_COL]),
         df[TARGET_COL].map(lambda item: 1.0 if item.strip() == ">50K" else 0.0),
     )
-
