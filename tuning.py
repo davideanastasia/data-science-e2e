@@ -38,6 +38,7 @@ def train(max_evals):
                     ),
                 )
                 clf.fit(X_train, y_train)
+                # scores = cross_val_score(clf, X_train, y_train, cv=5)
 
                 y_pred = clf.predict(X_test)
 
