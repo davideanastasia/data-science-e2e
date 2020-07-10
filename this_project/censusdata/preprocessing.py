@@ -1,5 +1,4 @@
-from sklearn.pipeline import Pipeline, FeatureUnion, make_union, make_pipeline
-from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import make_union, make_pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 

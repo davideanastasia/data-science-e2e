@@ -18,13 +18,14 @@ from this_project.censusdata import fetch_censusdata, make_linear_preprocessor
     default=10,
     help="Maximum number of runs to evaluate.",
 )
-def train(max_evals):
+def trainer(max_evals):
     def build_eval_fn(X, y):
         def eval_fn(params):
-            with mlflow.start_run(nested=True) as child_run:
+            with mlflow.start_run(nested=True) as _:
                 #  unpack parameters
                 (C,) = params
 
+                mlflow.set_tags({"training_type": "hyperopt"})
                 mlflow.log_params({"C": C})
 
                 # create train/test splits
@@ -42,7 +43,7 @@ def train(max_evals):
 
                 y_pred = clf.predict(X_test)
 
-                precision, recall, fscore, support = precision_recall_fscore_support(
+                precision, recall, fscore, _ = precision_recall_fscore_support(
                     y_test, y_pred, average="binary"
                 )
 
@@ -60,8 +61,9 @@ def train(max_evals):
 
     space = [hp.quniform("C", 1.0, 100.0, 0.5)]
 
-    with mlflow.start_run() as run:
+    with mlflow.start_run() as _:
         mlflow.log_param("max_evals", max_evals)
+        mlflow.set_tags({"training_type": "hyperopt"})
 
         best = fmin(
             fn=build_eval_fn(X, y), space=space, algo=tpe.suggest, max_evals=max_evals
@@ -70,4 +72,4 @@ def train(max_evals):
 
 
 if __name__ == "__main__":
-    train()
+    trainer()
