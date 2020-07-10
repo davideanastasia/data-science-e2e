@@ -32,12 +32,12 @@ def plot_roc_pr_curves(clf, X, y, fig=None, figsize=(18, 9)):
     false_positive_rate, true_positive_rate, _ = roc_curve(y, y_pred)
     roc_auc = auc(false_positive_rate, true_positive_rate)
 
-    name = "{} (AUC = {:.3f})".format(type(clf).__name__, roc_auc)
-
-    ax0.plot(false_positive_rate, true_positive_rate, label=name)
+    clf_name = type(clf).__name__
+    ax0.plot(false_positive_rate, true_positive_rate, label=f"{clf_name} (AUC = {roc_auc:.3f})")
 
     precision, recall, _ = precision_recall_curve(y, y_pred)
-    ax1.plot(recall, precision, label=name)
+
+    ax1.plot(recall, precision, label=f"{clf_name}")
 
     ax0.legend()
     ax1.legend()

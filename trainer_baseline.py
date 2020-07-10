@@ -1,3 +1,4 @@
+from this_project.censusdata.preprocessing import make_non_linear_preprocessor
 import click
 import mlflow
 
@@ -24,11 +25,12 @@ from this_project.censusdata import fetch_censusdata, make_linear_preprocessor
 )
 def trainer(regularisation: int, max_iter: int):
     with mlflow.start_run() as _:
-        mlflow.set_tags({"training_type": "baseline"})
+        mlflow.set_tags({"training_type": "Baseline"})
         mlflow.log_params({"C": regularisation, "max_iter": max_iter})
 
         X, y = fetch_censusdata()
         clf = make_pipeline(
+            make_non_linear_preprocessor(),
             make_linear_preprocessor(),
             LogisticRegression(
                 C=regularisation, max_iter=max_iter, class_weight="balanced", random_state=0
