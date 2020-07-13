@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import auc, precision_recall_curve, roc_curve
 
 
-def plot_roc_pr_curves(clf, X, y, fig=None, figsize=(18, 9)):
+def plot_roc_pr_curves(clf, X, y, fig=None, name=None, figsize=(18, 9)):
     if fig is None:
         fig, (ax0, ax1) = plt.subplots(1, 2, figsize=figsize)
 
@@ -32,7 +32,10 @@ def plot_roc_pr_curves(clf, X, y, fig=None, figsize=(18, 9)):
     false_positive_rate, true_positive_rate, _ = roc_curve(y, y_pred)
     roc_auc = auc(false_positive_rate, true_positive_rate)
 
-    clf_name = type(clf).__name__
+    if name is None:
+      clf_name = type(clf).__name__
+    else:
+      clf_name = name
     ax0.plot(false_positive_rate, true_positive_rate, label=f"{clf_name} (AUC = {roc_auc:.3f})")
 
     precision, recall, _ = precision_recall_curve(y, y_pred)
