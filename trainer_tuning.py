@@ -8,7 +8,7 @@ from sklearn.metrics import precision_recall_fscore_support
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.pipeline import make_pipeline
 
-from this_project.censusdata import (fetch_censusdata, make_nonlinear_preprocessor, make_nonlinear_to_linear_preprocessor)
+from this_project.censusdata import (fetch_censusdata, make_linear_preprocessor
 
 
 @click.command(help="Perform hyperparameter search with Hyperopt library.")
@@ -33,8 +33,7 @@ def trainer(max_evals):
 
                 # pipeline
                 clf = make_pipeline(
-                    make_nonlinear_preprocessor(),
-                    make_nonlinear_to_linear_preprocessor(),
+                    make_linear_preprocessor(),
                     LogisticRegression(
                         C=C, class_weight="balanced", max_iter=1000, random_state=0
                     ),

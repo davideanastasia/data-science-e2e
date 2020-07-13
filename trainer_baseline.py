@@ -1,4 +1,3 @@
-from this_project.censusdata.preprocessing import make_non_linear_preprocessor
 import click
 import mlflow
 
@@ -30,7 +29,6 @@ def trainer(regularisation: int, max_iter: int):
 
         X, y = fetch_censusdata()
         clf = make_pipeline(
-            make_non_linear_preprocessor(),
             make_linear_preprocessor(),
             LogisticRegression(
                 C=regularisation, max_iter=max_iter, class_weight="balanced", random_state=0
